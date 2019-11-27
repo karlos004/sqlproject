@@ -11,7 +11,7 @@ var userRouter = require('./routes/user');
 var app = express();
 app.use(cors());
 
-// view engine setup
+// view engine setup eeeeeeeeeeeeeeeeeeeee
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
