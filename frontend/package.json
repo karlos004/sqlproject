@@ -1,5 +1,5 @@
 {
-  "name": "stronkazpizdy",
+  "name": "sqlproject",
   "version": "1.0.0",
   "description": "My stylish Nuxt.js project",
   "author": "Karol Prus",
@@ -11,8 +11,8 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
-    "nuxt": "^2.0.0",
-    "@nuxtjs/axios": "^5.3.6"
+    "@nuxtjs/axios": "^5.3.6",
+    "nuxt": "^2.0.0"
   },
   "devDependencies": {}
 }

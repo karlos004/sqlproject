@@ -1,4 +1,4 @@
-# stronkazpizdy
+# sqlproject
 
 > My stylish Nuxt.js project
 

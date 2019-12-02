@@ -38,12 +38,12 @@ router.post('/', function(req, res, next) {
        
     // query to the database and get the records
     request.input('client', sql.Int, req.body.client)
-    request.query("select * from Orders JOIN Users as U on Orders.id_user = U.id_user WHERE U.id_user = @client", function (err, recordset) {
+    request.query("Select O.id_order, amount, D.delivery_desc, PA.payment_desc From Orders AS O Join Order_Details AS OD ON O.id_order = OD.id_order Join Products AS P ON OD.id_product = P.id_product Join Delivery AS D ON D.code = O.delivery_code Join Payments AS PA ON PA.code = O.payment_code Where id_user = @client", function (err, recordset) {
         
         if (err) console.log(err)
         // send records as a response
         console.log(recordset);
-        res.send(recordset.recordsets[0]);
+        res.send(recordset.recordsets);
         
     });
   });

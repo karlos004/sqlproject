@@ -1,34 +1,19 @@
 <template>
   <div class="container">
     <div>
-      <logo />
       <h1 class="title">
-        stronkazpizdy
+        sqlproject
       </h1>
-      <h2 class="subtitle">
-        My stylish Nuxt.js project
-      </h2>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey"
-        >
-          GitHub
-        </a>
-      </div>
-      <div>
+      <div class="user">
         <input type="text" v-model="client">
         <input @click="senddata" type="button" value="wyslij">
         <div v-if="result !== ''">
-          {{result.data[0]}}
+          <ul>
+            <li v-for="item in result.data[0]" v-bind:key="item.id_order">
+              <a @click="getorder(item.id_order)"><span> Id: {{ item.id_order }} | Kwota: {{ item.amount }} | Sposób dostawy: {{ item.delivery_desc }} | Sposób płatoności: {{ item.payment_desc }}</span></a>
+            </li>
+          </ul>
+          <div id="product"></div>
         </div>
       </div>
     </div>
@@ -51,12 +36,29 @@ export default {
   },
   methods: {
     senddata: async function(){
-      let siema = this
+      let self = this
     await axios.post('http://localhost:8080/user', {
       client: this.client,
       })
       .then(function (response) {
-        siema.result = response
+        self.result = response
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+        var div = document.getElementById('product');
+        if(div.innerHTML !== null){
+          div.innerHTML = '';
+        }
+    },
+    getorder: async function(id){
+      console.log(id);
+      let self = this;
+      let link = 'http://localhost:8080/order/' + id
+      await axios.get(link)
+      .then(function (response) {
+        var div = document.getElementById('product');
+        div.innerHTML = JSON.stringify(response.data[0]);
       })
       .catch(function (error) {
         console.log(error);
@@ -64,7 +66,7 @@ export default {
     }
   },
   mounted(){
-    
+
   }
 }
 </script>
@@ -99,5 +101,9 @@ export default {
 
 .links {
   padding-top: 15px;
+}
+
+.user{
+  margin-top: 30px
 }
 </style>

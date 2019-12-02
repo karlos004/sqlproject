@@ -11,7 +11,8 @@ const config = {
   database: 'BD2019SklepInternetowy',
 }
 
-router.get('/', function(req, res, next) {
+router.get('/:id', function(req, res, next) {
+    console.log(req.params.id);
   
   sql.connect(config, function (err) {
     
@@ -20,12 +21,13 @@ router.get('/', function(req, res, next) {
     var request = new sql.Request();
        
     // query to the database and get the records
-    request.query('select * from Users', function (err, recordset) {
+    request.input('order', sql.Int, req.params.id)
+    request.query("Select p_name, p_desc, quantity, price From Orders AS O Join Order_Details AS OD ON O.id_order = OD.id_order Join Products AS P ON OD.id_product = P.id_product Where O.id_order = @order", function (err, recordset) {
         
         if (err) console.log(err)
         // send records as a response
         console.log(recordset);
-        res.send({status: {code: '200', message: 'ok'}, data: recordset.recordsets[0]});
+        res.send(recordset.recordsets);
         
     });
   });
